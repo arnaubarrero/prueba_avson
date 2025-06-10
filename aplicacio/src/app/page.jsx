@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Menu from "./components/menu/page";
+import { useState, useEffect } from 'react';
 import Llegenda from "./components/llegenda/page";
+import { getData } from "./plugins/communicationManager";
 
 const MapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
@@ -17,6 +18,23 @@ const TileLayer = dynamic(
 export default function Home() {
   const posicio = [37.985199, -1.125110];
   const [hora, setHora] = useState('');
+  const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getData();
+        setCategorias(response);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const actualizarHora = () => {
@@ -48,15 +66,19 @@ export default function Home() {
         </MapContainer>
       </div>
 
-      {/* Filtro azul encima del mapa */}
+      {/* Filtro azul */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Componentes por encima de todo */}
-      <div className="fixed top-0 left-0 w-full h-full z-20">
-        <Menu />
-        <Llegenda />
+      {/* Componentes flotantes */}
+      <div className="fixed inset-0 z-20 pointer-events-none">
+        <div className="w-full pointer-events-auto">
+          <Menu />
+        </div>
+        <div className="absolute bottom-4 left-4 pointer-events-auto">
+          <Llegenda />
+        </div>
       </div>
     </div>
   );
