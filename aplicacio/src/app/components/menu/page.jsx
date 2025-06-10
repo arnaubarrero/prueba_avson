@@ -29,7 +29,7 @@ export default function Menu() {
         <div className="flex items-center h-25 ">
             {/* Logo */}
             <div className="w-1/3">
-                <Image className="h-[60px] w-[60px] ml-[25%]" priority src={logo} alt="El nostre logo" />
+                <Image className="h-[70px] w-[70px] ml-[25%]" priority src={logo} alt="El nostre logo" />
             </div>
 
             {/* Filtres */}

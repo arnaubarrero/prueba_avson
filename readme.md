@@ -1,12 +1,16 @@
 # Prueba acceso Avson 
 
 ## Tecnologies utilitzades
+
 #### Mapa
-* leaftlet.js (OpenStreet Map)
-* npm install leaflet react-leaflet
+* leaflet.js (OpenStreet Map)
+* `npm install leaflet react-leaflet`
 
 #### Frontend
-* React (next.js)
+* React (Next.js)
 
-#### Estetica
+#### Estètica
 * Tailwind
+
+## Enlace a producción:
+[https://prueba-avson.vercel.app/](https://prueba-avson.vercel.app/)

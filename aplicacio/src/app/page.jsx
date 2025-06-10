@@ -37,6 +37,7 @@ export default function Home() {
         <MapContainer
           center={posicio}
           zoom={10}
+          zoomControl={false}
           style={{ width: '100%', height: '100%' }}
           scrollWheelZoom={false}
         >
