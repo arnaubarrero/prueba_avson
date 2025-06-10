@@ -32,19 +32,31 @@ export default function Home() {
 
   return (
     <div className="relative w-full h-screen">
-      {/* Full-screen map (client-side only) */}
-      <div className="w-full h-full fixed top-0 left-0 z-0">
-        <MapContainer center={posicio} zoom={10} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
-          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
+      {/* Mapa */}
+      <div className="fixed top-0 left-0 w-full h-full z-0">
+        <MapContainer
+          center={posicio}
+          zoom={10}
+          style={{ width: '100%', height: '100%' }}
+          scrollWheelZoom={false}
+        >
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+          />
         </MapContainer>
       </div>
 
-      {/* Your content (above the map) */}
-      <div className="relative z-10">
-        <Menu />
+      {/* Filtro azul encima del mapa */}
+      <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
+        <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      < Llegenda />
+      {/* Componentes por encima de todo */}
+      <div className="fixed top-0 left-0 w-full h-full z-20">
+        <Menu />
+        <Llegenda />
+      </div>
     </div>
   );
 }
