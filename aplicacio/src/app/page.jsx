@@ -14,6 +14,14 @@ const TileLayer = dynamic(
   () => import('react-leaflet').then((mod) => mod.TileLayer),
   { ssr: false }
 );
+const Marker = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Popup),
+  { ssr: false }
+);
 
 export default function Home() {
   const posicio = [37.985199, -1.125110];
@@ -52,17 +60,19 @@ export default function Home() {
     <div className="relative w-full h-screen">
       {/* Mapa */}
       <div className="fixed top-0 left-0 w-full h-full z-0">
-        <MapContainer
-          center={posicio}
-          zoom={10}
-          zoomControl={false}
-          style={{ width: '100%', height: '100%' }}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
-          />
+        <MapContainer center={posicio} zoom={10} zoomControl={false} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
+
+          {/* Ensenyar les coordenades al mapa */}
+          {categorias?.infraestructuras?.map((infra) => (
+            <Marker key={infra.id} position={[infra.lat, infra.lng]} >
+              <Popup>
+                <strong>{infra.nombre}</strong><br />
+                Estado: {infra.estado}
+              </Popup>
+            </Marker>
+          ))}
+
         </MapContainer>
       </div>
 
