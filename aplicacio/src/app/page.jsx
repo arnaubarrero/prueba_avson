@@ -24,7 +24,6 @@ export default function Home() {
     <div className="bg-white w-[100vw] h-[100vh] border border-white">
 
       < Menu />
-
     </div>
   );
 }
