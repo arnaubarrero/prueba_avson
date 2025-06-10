@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Menu from "./components/menu/page";
+import Llegenda from "./components/llegenda/page";
 
 const MapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
@@ -33,16 +34,8 @@ export default function Home() {
     <div className="relative w-full h-screen">
       {/* Full-screen map (client-side only) */}
       <div className="w-full h-full fixed top-0 left-0 z-0">
-        <MapContainer
-          center={posicio}
-          zoom={12}
-          scrollWheelZoom={false}
-          className="w-full h-full"
-        >
-          <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
-          />
+        <MapContainer center={posicio} zoom={15} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
         </MapContainer>
       </div>
 
@@ -50,6 +43,8 @@ export default function Home() {
       <div className="relative z-10">
         <Menu />
       </div>
+
+      < Llegenda />
     </div>
   );
 }
