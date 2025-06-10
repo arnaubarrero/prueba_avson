@@ -34,7 +34,7 @@ export default function Home() {
     <div className="relative w-full h-screen">
       {/* Full-screen map (client-side only) */}
       <div className="w-full h-full fixed top-0 left-0 z-0">
-        <MapContainer center={posicio} zoom={15} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
+        <MapContainer center={posicio} zoom={10} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
           <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
         </MapContainer>
       </div>
