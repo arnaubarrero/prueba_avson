@@ -1,0 +1,90 @@
+{
+    "horaActual": "09:41",
+    "infraestructuras": [
+        {
+            "id": 1,
+            "nombre": "Infraestructura 1",
+            "lat": 25.45,
+            "lng": -103.2,
+            "estado": "alerta"
+        },
+        {
+            "id": 2,
+            "nombre": "Infraestructura 2",
+            "lat": 24.85,
+            "lng": -103.8,
+            "estado": "normal"
+        },
+        {
+            "id": 3,
+            "nombre": "Infraestructura 3",
+            "lat": 23.9,
+            "lng": -104.1,
+            "estado": "riesgo"
+        }
+    ],
+    "amenazasAvanzadas": {
+        "horas": [
+            "2 AM",
+            "4 AM",
+            "6 AM"
+        ],
+        "valores": {
+            "SQL injection": [
+                4,
+                7,
+                5
+            ],
+            "XSS malware": [
+                6,
+                9,
+                3
+            ]
+        }
+    },
+    "cyberark": {
+        "dias": [
+            "LUN",
+            "MAR",
+            "MIÉ",
+            "JUE",
+            "VIE",
+            "SÁB",
+            "DOM"
+        ],
+        "conexiones": [
+            3,
+            5,
+            8,
+            12,
+            10,
+            6,
+            2
+        ],
+        "sesiones": 133,
+        "noAutorizadas": 26,
+        "temporalidades": "127/143"
+    },
+    "traficoBloqueado": {
+        "riesgo": 90,
+        "mensaje": "Ataque bloqueado por Firewall",
+        "fuente": "paloalto"
+    },
+    "ciberamenazas": {
+        "meses": [
+            "ENE",
+            "FEB",
+            "MAR"
+        ],
+        "internas": [
+            14,
+            20,
+            18
+        ],
+        "externas": [
+            22,
+            18,
+            25
+        ]
+    }
+}
