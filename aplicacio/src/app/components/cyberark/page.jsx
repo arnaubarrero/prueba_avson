@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { getData } from "../../plugins/communicationManager";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    ResponsiveContainer,
+    CartesianGrid,
+} from "recharts";
 
 export default function Ciberamenazas() {
     const [chartData, setChartData] = useState([]);
@@ -15,14 +23,14 @@ export default function Ciberamenazas() {
 
             const formattedData = cyberark.dias.map((dia, index) => ({
                 dia,
-                sesiones: cyberark.conexiones[index]
+                sesiones: cyberark.conexiones[index],
             }));
 
             setChartData(formattedData);
             setInfo({
                 sesiones: cyberark.sesiones,
                 noAutorizadas: cyberark.noAutorizadas,
-                temporalidades: cyberark.temporalidades
+                temporalidades: cyberark.temporalidades,
             });
         };
 
@@ -30,28 +38,54 @@ export default function Ciberamenazas() {
     }, []);
 
     return (
-        <div className="bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#4361ee] w-[450px]">
-            <h2 className="text-lg font-semibold mb-2 text-[#003366]">Cyberark-PSM</h2>
+        <div className="bg-blue-200 bg-opacity-20 border-2 rounded-2xl border-[#4361ee] w-[450px] max-h-[45vh] p-3 flex flex-col justify-between">
+            <h2 className="text-base font-semibold text-[#003366] text-xl font-thin p-3 mb-2">
+                Cyberark-PSM
+            </h2>
 
-            <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={chartData}>
-                    <YAxis />
-                    <Tooltip />
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <Bar dataKey="sesiones" fill="#4da6ff" radius={[4, 4, 0, 0]} />
-                    <XAxis dataKey="dia" angle={-45} textAnchor="end" height={50} />
-                </BarChart>
-            </ResponsiveContainer>
+            {/* Establecemos una altura fija para que el gráfico se muestre */}
+            <div className="h-[120px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData}>
+                        <CartesianGrid stroke="#ffffff" strokeDasharray="0" horizontal vertical />
+                        <XAxis
+                            dataKey="dia"
+                            angle={-45}
+                            textAnchor="end"
+                            height={40}
+                            tick={{ fontSize: 10 }}
+                        />
+                        <YAxis tick={{ fontSize: 10 }} />
+                        <Tooltip />
+                        <Bar dataKey="sesiones" fill="#4da6ff" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
 
             {info && (
-                <div className="bg-blue-300 bg-opacity-30 p-2 mt-4 rounded-md text-sm text-[#003366] flex gap-3">
-                    <div className="border-r-2 pr-2">
-                        <p><strong>Conexiones</strong></p>
+                <div className="bg-blue-100 bg-opacity-30 mt-2 p-2 rounded-md text-xs text-[#003366] flex justify-center items-center gap-4 h-[100px]">
+                    <div className="flex items-center justify-center border-r-2 pr-3 h-full">
+                        <div className="origin-center font-thin text-xl tracking-tight">
+                            Conexiones
+                        </div>
                     </div>
-                    <div>
-                        <p>Realizadas (sesiones PSM): <strong>{info.sesiones}</strong></p>
-                        <p>No Securizadas: <strong>{String(info.noAutorizadas).padStart(3, "0")}</strong></p>
-                        <p>Legítimas / Temporales: <strong>{info.temporalidades}</strong></p>
+
+                    {/* Info a la derecha */}
+                    <div className="flex flex-col gap-1 leading-snug">
+                        <p>
+                            Realizadas (sesiones PSM):{" "}
+                            <span className="font-bold">{info.sesiones}</span>
+                        </p>
+                        <p>
+                            No Securizadas:{" "}
+                            <span className="font-bold">
+                                {String(info.noAutorizadas).padStart(3, "0")}
+                            </span>
+                        </p>
+                        <p>
+                            Legítimas / Temporales:{" "}
+                            <span className="font-bold">{info.temporalidades}</span>
+                        </p>
                     </div>
                 </div>
             )}

@@ -7,7 +7,6 @@ import {
   Radar,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -53,17 +52,17 @@ export default function AmenazasAvanzadas() {
   }
 
   return (
-    <div className="w-full max-w-[450px] bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#4361ee] mx-auto">
-      <h2 className="text-xl font-semibold text-[#003366] mb-4 text-center">
+    <div className="w-full max-w-[450px] max-h-[45vh] bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#4361ee] mx-auto flex flex-col">
+      <h2 className="text-base font-semibold text-[#003366] text-xl font-thin mb-2">
         Amenazas Avanzadas
       </h2>
 
-      <div className="flex justify-center gap-3 mb-4 text-sm font-medium">
+      <div className="flex justify-center gap-3 mb-4 text-sm font-medium shrink-0">
         <span className="px-3 py-1 rounded-full text-blue-500">SQL Injection</span>
         <span className="px-3 py-1 rounded-full bg-[#008f39] text-white">XSS Malware</span>
       </div>
 
-      <div className="w-full h-[300px]">
+      <div className="w-full" style={{ height: "25vh" }}>
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="80%">
             <PolarGrid stroke="#ffffff" />

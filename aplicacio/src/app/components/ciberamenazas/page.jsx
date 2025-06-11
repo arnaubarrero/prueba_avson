@@ -11,7 +11,7 @@ export default function Ciberamenazas() {
         const fetchData = async () => {
             const response = await getData();
 
-            const data = response.ciberamenazas.meses.map((mes, index) => ({ // Convertir dades valides per el grafic
+            const data = response.ciberamenazas.meses.map((mes, index) => ({ 
                 mes,
                 internas: response.ciberamenazas.internas[index],
                 externas: response.ciberamenazas.externas[index],

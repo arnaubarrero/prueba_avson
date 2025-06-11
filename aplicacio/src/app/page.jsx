@@ -6,7 +6,7 @@ import Menu from "./components/menu/page";
 import Llegenda from "./components/llegenda/page";
 import Cyberark from './components/cyberark/page';
 import TotalAmenazas from './components/ciberamenazas/page';
-import AmenazasAvanzadas  from './components/amenazasAvanzadas/page';
+import AmenazasAvanzadas from './components/amenazasAvanzadas/page';
 import TraficoMalicioso from './components/traficoMalicioso/page';
 import { getData } from "./plugins/communicationManager";
 
@@ -128,29 +128,30 @@ export default function Home() {
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
+      {/* Layout de componentes */}
       <div className="fixed inset-0 z-20 pointer-events-none">
+        {/* Menu en la parte superior (ya tiene position fixed) */}
         <div className="w-full pointer-events-auto">
           <Menu />
         </div>
 
-        <div className="absolute bottom-4 left-4 pointer-events-auto">
-          <Llegenda />
-        </div>
-
-        <div className="absolute bottom-4 left-4 pointer-events-auto">
+        {/* Componentes del lado izquierdo */}
+        <div className="absolute left-4 bottom-4 pointer-events-auto flex flex-col gap-6 m-6">
+          <AmenazasAvanzadas />
           <Cyberark />
         </div>
 
-        <div className="absolute bottom-4 left-4 pointer-events-auto">
-          <AmenazasAvanzadas />
-        </div>
-
-        <div className="absolute right-25 top-25 pointer-events-auto flex flex-col items-end gap-4">
+        {/* Componentes del lado derecho */}
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-auto flex flex-col gap-4">
           <TraficoMalicioso />
           <TotalAmenazas />
         </div>
-      </div>
 
+        {/* Leyenda en la esquina inferior derecha (ya tiene position fixed) */}
+        <div className="absolute bottom-4 right-4 pointer-events-auto">
+          <Llegenda />
+        </div>
+      </div>
     </div>
   );
 }

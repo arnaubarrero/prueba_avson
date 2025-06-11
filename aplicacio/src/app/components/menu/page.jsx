@@ -26,7 +26,7 @@ export default function Menu() {
     }, []);
 
     return (
-        <div className="flex items-center h-25 ">
+        <div className="flex items-center h-[10vh] ">
             {/* Logo */}
             <div className="w-1/3">
                 <Image className="h-[70px] w-[70px] ml-[25%]" priority src={logo} alt="El nostre logo" />

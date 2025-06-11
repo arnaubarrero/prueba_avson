@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import llegenda1 from "../../../../public/leyenda/llegenda1.png";
@@ -7,8 +7,8 @@ import llegenda3 from "../../../../public/leyenda/llegenda3.png";
 
 export default function Llegenda() {
     return (
-        <div className="fixed bottom-10 right-10 flex overflow-hidden text-blue-700">
-            <div className="border-r-3 border-blue-800 text-lg font-bold px-2 py-3 flex">
+        <div className="fixed bottom-10 right-10 flex overflow-hidden text-blue-700 px-5">
+            <div className="border-r-3 border-blue-800 font-bold flex justify-center items-center min-w-[90px]">
                 Leyenda
             </div>
             <div className="px-4 py-2 space-y-2">
