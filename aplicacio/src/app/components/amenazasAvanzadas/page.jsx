@@ -52,7 +52,7 @@ export default function AmenazasAvanzadas() {
   }
 
   return (
-    <div className="w-full max-w-full bg-blue-200 bg-opacity-20 py-3 px-4 border-2 rounded-2xl border-[#4361ee] flex flex-col">
+    <div className="max-w-full bg-blue-200/80 py-3 px-4 border-2 rounded-2xl border-[#4361ee] flex flex-col">
       <h2 className="text-sm font-semibold text-[#003366] mb-2 lg:text-base">
         Amenazas Avanzadas
       </h2>

@@ -140,9 +140,9 @@ export default function Home() {
 
         {/* Componentes con scroll y mejor organización */}
         {estatMenu && (
-          <div id='items' className="absolute inset-0 pt-[12vh] pb-4 overflow-hidden">
+          <div id='items' className="absolute inset-0 pt-[12vh] pb-4">
             {/* Contenedor izquierdo con scroll */}
-            <div className="absolute left-2 top-[12vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+            <div className="absolute left-2 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
               <div className="flex flex-col gap-3 p-2">
                 <AmenazasAvanzadas />
                 <Cyberark />
@@ -150,7 +150,7 @@ export default function Home() {
             </div>
 
             {/* Contenedor derecho con scroll */}
-            <div className="absolute right-2 top-[12vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+            <div className="absolute right-2 gap-10 top-[20vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
               <div className="flex flex-col gap-3 p-2">
                 <TraficoMalicioso />
                 <TotalAmenazas />

@@ -27,7 +27,7 @@ export default function Ciberamenazas() {
     }
 
     return (
-        <div className="bg-blue-200 bg-opacity-20 p-3 border-2 rounded-2xl border-[#4361ee] w-full max-w-full">
+        <div className="bg-blue-200/80 p-3 border-2 rounded-2xl border-[#4361ee] w-full max-w-full">
             <div className="flex flex-col gap-2 mb-3 lg:flex-row lg:justify-between lg:items-center">
                 <div className="flex flex-wrap gap-1 text-sm">
                     <p>Ciberamenazas </p>

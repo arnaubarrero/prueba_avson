@@ -21,7 +21,7 @@ export default function TraficoMalicioso() {
     }, []);
 
     return (
-        <div className="bg-blue-200 bg-opacity-20 p-3 border-2 rounded-2xl border-[#BDD8ECB2] w-full max-w-full relative" style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}>
+        <div className="bg-blue-200/90 p-3 border-2 rounded-2xl border-[#4361ee] w-full max-w-full relative" style={{ filter: "drop-shadow(0 0 5pxrgb(255, 197, 197))" }}>
             {/* Header de la tarjeta */}
             <div className="flex gap-3 items-center mb-3">
                 <button
