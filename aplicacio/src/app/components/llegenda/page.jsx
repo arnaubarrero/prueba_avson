@@ -7,7 +7,7 @@ import llegenda3 from "../../../../public/leyenda/llegenda3.png";
 
 export default function Llegenda() {
     return (
-        <div className="fixed bottom-10 right-10 flex overflow-hidden text-blue-700 px-5">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/70 sm:left-auto sm:right-10 sm:translate-x-0 sm:bg-transparent rounded-xl flex overflow-hidden text-blue-700 px-5 py-2 w-fit whitespace-nowrap">
             <div className="border-r-3 border-blue-800 font-bold flex justify-center items-center min-w-[90px]">
                 Leyenda
             </div>

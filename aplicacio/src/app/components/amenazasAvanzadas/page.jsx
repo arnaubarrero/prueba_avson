@@ -52,7 +52,7 @@ export default function AmenazasAvanzadas() {
   }
 
   return (
-    <div className="w-[90vw] sm:w-full xl:max-w-full sm:max-w-[300px] bg-blue-200/80 py-3 px-4 border-2 rounded-2xl border-[#4361ee] flex flex-col">
+    <div className="p-6 sm:py-3 sm:px-4 sm:w-full xl:max-w-full sm:max-w-[300px] bg-blue-200/80 border-2 rounded-2xl border-[#4361ee] flex flex-col">
       <h2 className="text-sm font-semibold text-[#003366] mb-2 lg:text-base">
         Amenazas Avanzadas
       </h2>
@@ -64,7 +64,7 @@ export default function AmenazasAvanzadas() {
 
       <div className="w-full h-[180px] lg:h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
-          <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="70%">
+          <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="100%">
             <PolarGrid stroke="#ffffff" />
             <PolarAngleAxis dataKey="hora" tick={{ fill: "#ffffff", fontSize: 10 }} />
             <Tooltip

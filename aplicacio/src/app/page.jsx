@@ -190,7 +190,7 @@ export default function Home() {
         {estatMenu && (
           <div id='items' className="absolute inset-0 pt-[12vh] pb-4">
 
-            {/* Layout móvil - Carrusel horizontal con botones */}
+            {/* Vista movil */}
             <div className="md:hidden w-full h-full flex flex-col items-center justify-center relative">
               <div className="relative w-full flex-1 flex items-center">
 
@@ -214,29 +214,27 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Layout desktop - Columnas como antes */}
+            {/* Vista pc */}
             <div className="hidden md:block">
-              {/* Contenedor izquierdo con scroll */}
-              <div className="no-scrollbar absolute left-2 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
+              <div className="no-scrollbar absolute left-8 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
                 <div className="flex flex-col gap-3 p-2">
                   <AmenazasAvanzadas />
                   <Cyberark />
                 </div>
               </div>
 
-              {/* Contenedor derecho con scroll */}
-              <div className="no-scrollbar absolute right-2 gap-10 top-[20vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+              <div className="no-scrollbar absolute right-8 gap-10 top-[20vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
                 <div className="flex flex-col gap-3 p-2">
                   <TraficoMalicioso />
                   <TotalAmenazas />
                 </div>
               </div>
-              <div className="absolute bottom-4 right-4 pointer-events-auto">
-                <Llegenda />
-              </div>
             </div>
           </div>
         )}
+        <div className="absolute bottom-4 right-4 pointer-events-auto">
+          <Llegenda />
+        </div>
       </div>
     </div>
   );
