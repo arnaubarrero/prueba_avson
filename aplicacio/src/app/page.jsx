@@ -231,12 +231,12 @@ export default function Home() {
                   <TotalAmenazas />
                 </div>
               </div>
+              <div className="absolute bottom-4 right-4 pointer-events-auto">
+                <Llegenda />
+              </div>
             </div>
           </div>
         )}
-        <div className="absolute bottom-4 right-4 pointer-events-auto">
-          <Llegenda />
-        </div>
       </div>
     </div>
   );
