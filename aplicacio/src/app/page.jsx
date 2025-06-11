@@ -141,7 +141,7 @@ export default function Home() {
           <Cyberark />
         </div>
 
-        <div className="absolute top-4 left-4 pointer-events-auto">
+        <div className="absolute bottom-4 left-4 pointer-events-auto">
           <AmenazasAvanzadas />
         </div>
 

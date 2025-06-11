@@ -1,86 +1,98 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getData } from "../../plugins/communicationManager";
 import {
-    RadarChart,
-    Radar,
-    PolarGrid,
-    PolarAngleAxis,
-    PolarRadiusAxis,
-    Tooltip,
-    ResponsiveContainer,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 
 export default function AmenazasAvanzadas() {
-    const [chartData, setChartData] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getData();
-                const amenazas = response?.amenazasAvanzadas;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getData();
+        const data = response?.amenazasAvanzadas;
 
-                if (!amenazas) {
-                    console.error("No se encontraron datos de 'amenazasAvanzadas'", response);
-                    setChartData([]);
-                    setLoading(false);
-                    return;
-                }
+        if (!data?.horas?.length || !data.valores) {
+          console.error("Datos de 'amenazasAvanzadas' incompletos o inexistentes", response);
+          return;
+        }
 
-                const formattedData = amenazas.horas.map((hora, i) => ({
-                    hora,
-                    "SQL injection": amenazas.valores["SQL injection"][i],
-                    "XSS malware": amenazas.valores["XSS malware"][i],
-                }));
+        const formatted = data.horas.map((hora, i) => ({
+          hora,
+          "SQL injection": data.valores["SQL injection"][i],
+          "XSS malware": data.valores["XSS malware"][i],
+        }));
 
-                setChartData(formattedData);
-            } catch (error) {
-                console.error("Error al obtener los datos:", error);
-                setChartData([]);
-            } finally {
-                setLoading(false);
-            }
-        };
+        setChartData(formatted);
+      } catch (err) {
+        console.error("Error al obtener los datos:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-    if (loading) {
-        return <p className="text-blue-900">Cargando datos...</p>;
-    }
+  if (loading) {
+    return <p className="text-blue-900 text-center">Cargando amenazas...</p>;
+  }
 
-    if (chartData.length === 0) {
-        return <p className="text-red-600">No hay datos disponibles para mostrar.</p>;
-    }
+  if (!chartData.length) {
+    return <p className="text-red-600 text-center">No hay datos disponibles.</p>;
+  }
 
-    return (
-        <div className="bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#4361ee] w-[450px]">
-            <h2 className="text-lg font-semibold mb-2 text-[#003366]">Amenazas Avanzadas</h2>
+  return (
+    <div className="w-full max-w-[450px] bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#4361ee] mx-auto">
+      <h2 className="text-xl font-semibold text-[#003366] mb-4 text-center">
+        Amenazas Avanzadas
+      </h2>
 
-            <ResponsiveContainer width="100%" height={300}>
-                <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="80%">
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="hora" />
-                    <PolarRadiusAxis angle={30} domain={[0, Math.max(...chartData.flatMap(d => [d["SQL injection"], d["XSS malware"]])) + 2]} />
-                    <Tooltip />
-                    <Radar
-                        name="SQL injection"
-                        dataKey="SQL injection"
-                        stroke="#8884d8"
-                        fill="#8884d8"
-                        fillOpacity={0.6}
-                    />
-                    <Radar
-                        name="XSS malware"
-                        dataKey="XSS malware"
-                        stroke="#82ca9d"
-                        fill="#82ca9d"
-                        fillOpacity={0.6}
-                    />
-                </RadarChart>
-            </ResponsiveContainer>
-        </div>
-    );
+      <div className="flex justify-center gap-3 mb-4 text-sm font-medium">
+        <span className="px-3 py-1 rounded-full text-blue-500">SQL Injection</span>
+        <span className="px-3 py-1 rounded-full bg-[#008f39] text-white">XSS Malware</span>
+      </div>
+
+      <div className="w-full h-[300px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="80%">
+            <PolarGrid stroke="#ffffff" />
+            <PolarAngleAxis dataKey="hora" tick={{ fill: "#ffffff", fontSize: 12 }} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#fff",
+                borderColor: "#ccc",
+                fontSize: "0.85rem",
+              }}
+              formatter={(value) => [`${value}`, "Amenazas"]}
+            />
+            <Radar
+              name="SQL injection"
+              dataKey="SQL injection"
+              stroke="#2563eb"
+              fill="#2563eb"
+              fillOpacity={0.5}
+            />
+            <Radar
+              name="XSS malware"
+              dataKey="XSS malware"
+              stroke="#ff3e3c"
+              fill="none"
+              fillOpacity={0.5}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
 }

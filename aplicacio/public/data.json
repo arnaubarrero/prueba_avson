@@ -26,18 +26,27 @@
         "horas": [
             "2 AM",
             "4 AM",
-            "6 AM"
+            "6 AM",
+            "11 AM",
+            "11 PM",
+            "12 PM"
         ],
         "valores": {
             "SQL injection": [
                 4,
                 7,
-                5
+                5,
+                2,
+                1,
+                10
             ],
             "XSS malware": [
                 6,
                 9,
-                3
+                3,
+                7,
+                4,
+                1
             ]
         }
     },
