@@ -61,7 +61,7 @@ export default function Menu({ onMenuChange }) {
 
             {/* Filtros */}
             <div className="w-1/3 flex flex-col items-center text-blue-800">
-                <h3 className="font-Outfit text-lg font-bold mb-1 lg:text-2xl">Filtrar infraestructuras</h3>
+                <h3 className="font-Outfit text-lg font-thin mb-1 lg:text-2xl">Filtrar infraestructuras</h3>
                 <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 lg:gap-8">
                     {["Infra 1", "Infra 2", "Infra 3"].map((infra, index) => (
                         <div key={index} className="flex items-center gap-2">
