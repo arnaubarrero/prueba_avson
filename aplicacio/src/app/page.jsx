@@ -1,10 +1,11 @@
 "use client";
-import L from 'leaflet';
+
 import dynamic from 'next/dynamic';
 import Menu from "./components/menu/page";
 import { useState, useEffect } from 'react';
 import Llegenda from "./components/llegenda/page";
 import { getData } from "./plugins/communicationManager";
+import TotalAmenazas from './components/ciberamenazas/page';
 
 const MapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
@@ -27,28 +28,7 @@ export default function Home() {
   const posicio = [37.985199, -1.125110];
   const [hora, setHora] = useState('');
   const [categorias, setCategorias] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getData();
-      setCategorias(response);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const actualizarHora = () => {
-      const ahora = new Date();
-      const horaFormateada = ahora.toLocaleTimeString();
-      setHora(horaFormateada);
-    };
-
-    actualizarHora();
-    const intervalo = setInterval(actualizarHora, 1000);
-    return () => clearInterval(intervalo);
-  }, []);
+  const [createCustomIcon, setCreateCustomIcon] = useState(null);
 
   const getColorClass = (estado) => {
     switch (estado) {
@@ -68,63 +48,103 @@ export default function Home() {
           imgSrc: '/vectoresMapa/verd.png',
         };
       default:
+        return {};
     }
   };
 
-  let createCustomIcon;
-  if (typeof window !== 'undefined') {
-    createCustomIcon = (infra) => {
-      const { clases, imgSrc } = getColorClass(infra.estado);
-      return L.divIcon({
-        className: '',
-        html: `
-        <div class="p-1 z-30 rounded-xl border shadow-md text-sm font-medium bg-opacity-20 ${clases}">
-          <div class="items-center flex gap-2 text-center">
-            <img src="${imgSrc}" class="h-[20px] mx-auto mb-1" alt="icono estado" />
-            <div>
-              <img src="/logo.svg" alt="Logo" class="h-[15px]" />
-              ${infra.nombre}
-            </div>
-          </div>
-        </div>
-        <div class="h-[30px] w-[3px] m-auto bg-black "></div>
-        <div class="h-3 w-3 bg-black rounded-full m-auto"></div>
-      `,
-        iconSize: [150, 40],
-        iconAnchor: [75, 73] // El punt es el centre de la coordenada
-      });
+  // Cargar datos
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getData();
+      setCategorias(response);
     };
-  }
+    fetchData();
+  }, []);
 
+  // Actualizar hora cada segundo
+  useEffect(() => {
+    const actualizarHora = () => {
+      const ahora = new Date();
+      const horaFormateada = ahora.toLocaleTimeString();
+      setHora(horaFormateada);
+    };
+    actualizarHora();
+    const intervalo = setInterval(actualizarHora, 1000);
+    return () => clearInterval(intervalo);
+  }, []);
+
+  // Cargar Leaflet solo en cliente y definir createCustomIcon
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const L = require('leaflet');
+      setCreateCustomIcon(() => (infra) => {
+        const { clases, imgSrc } = getColorClass(infra.estado);
+        return L.divIcon({
+          className: '',
+          html: `
+            <div class="p-1 z-30 rounded-xl border shadow-md text-sm font-medium bg-opacity-20 ${clases}">
+              <div class="items-center flex gap-2 text-center">
+                <img src="${imgSrc}" class="h-[20px] mx-auto mb-1" alt="icono estado" />
+                <div>
+                  <img src="/logo.svg" alt="Logo" class="h-[15px]" />
+                  ${infra.nombre}
+                </div>
+              </div>
+            </div>
+            <div class="h-[30px] w-[3px] m-auto bg-black "></div>
+            <div class="h-3 w-3 bg-black rounded-full m-auto"></div>
+          `,
+          iconSize: [150, 40],
+          iconAnchor: [75, 73],
+        });
+      });
+    }
+  }, []);
 
   return (
     <div className="relative w-full h-screen">
       {/* Mapa */}
       <div className="fixed top-0 left-0 w-full h-full z-0">
-        <MapContainer center={posicio} zoom={11} zoomControl={false} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
-          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
+        <MapContainer
+          center={posicio}
+          zoom={11}
+          zoomControl={false}
+          style={{ width: '100%', height: '100%' }}
+          scrollWheelZoom={false}
+        >
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+          />
 
-          {/* Ensenyar les coordenades */}
-          {categorias?.infraestructuras?.map((infra) => (
+          {categorias?.infraestructuras?.map((infra) =>
             createCustomIcon ? (
-              <Marker className="z-30" key={infra.id} position={[infra.lat, infra.lng]} icon={createCustomIcon(infra)} />
+              <Marker
+                className="z-30"
+                key={infra.id}
+                position={[infra.lat, infra.lng]}
+                icon={createCustomIcon(infra)}
+              />
             ) : null
-          ))}
+          )}
         </MapContainer>
       </div>
 
-      {/* Filtro blau */}
+      {/* Filtro azul */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Components flotants */}
+      {/* Components flotantes */}
       <div className="fixed inset-0 z-20 pointer-events-none">
         <div className="w-full pointer-events-auto">
           <Menu />
         </div>
         <div className="absolute bottom-4 left-4 pointer-events-auto">
           <Llegenda />
+        </div>
+        <div className="absolute bottom-4 left-4 pointer-events-auto">
+          <TotalAmenazas />
         </div>
       </div>
     </div>
