@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import Menu from "./components/menu/page";
 import Llegenda from "./components/llegenda/page";
+import Cyberark from './components/cyberark/page';
 import TotalAmenazas from './components/ciberamenazas/page';
 import TraficoMalicioso from './components/traficoMalicioso/page';
 import { getData } from "./plugins/communicationManager";
@@ -133,6 +134,10 @@ export default function Home() {
 
         <div className="absolute bottom-4 left-4 pointer-events-auto">
           <Llegenda />
+        </div>
+
+        <div className="absolute bottom-4 left-4 pointer-events-auto">
+          <Cyberark />
         </div>
 
         <div className="absolute right-25 top-25 pointer-events-auto flex flex-col items-end gap-4">
