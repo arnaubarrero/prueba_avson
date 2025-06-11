@@ -52,7 +52,7 @@ export default function Menu() {
             </div>
 
             {/* Hora e icona del menu */}
-            <div className="w-1/3 flex justify-center items-center pr-6 gap-6">
+            <div className="w-1/3 flex justify-center items-center pr-3 gap-6">
                 <span className="text-2xl">{hora}</span>
                 <div className="cursor-pointer p-2 bg-[#E8F9FF] rounded-full">
                     <IconaMenu className="text-[#003B99]" />

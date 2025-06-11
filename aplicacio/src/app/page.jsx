@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Menu from "./components/menu/page";
 import Llegenda from "./components/llegenda/page";
 import TotalAmenazas from './components/ciberamenazas/page';
+import TraficoMalicioso from './components/traficoMalicioso/page';
 import { getData } from "./plugins/communicationManager";
 
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
@@ -34,6 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     setIsClient(true);
+
     return () => {
       const leafletContainers = document.getElementsByClassName('leaflet-container');
       if (leafletContainers.length > 0) {
@@ -57,6 +59,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getData();
+      setCategorias(response);
     };
     fetchData();
   }, []);
@@ -91,10 +94,10 @@ export default function Home() {
   return (
     <div className="relative w-full h-screen">
       {/* Mapa */}
-      {/* <div className="fixed top-0 left-0 w-full h-full z-0">
+      <div className="fixed top-0 left-0 w-full h-full z-0">
         {isClient && (
           <MapContainer
-            key={mapKey} // 🔁 evita reuso de contenedor
+            key={mapKey}
             center={posicio}
             zoom={11}
             zoomControl={false}
@@ -116,25 +119,28 @@ export default function Home() {
             )}
           </MapContainer>
         )}
-      </div> */}
+      </div>
 
       {/* Filtro azul */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Componentes flotantes */}
       <div className="fixed inset-0 z-20 pointer-events-none">
         <div className="w-full pointer-events-auto">
           <Menu />
         </div>
+
         <div className="absolute bottom-4 left-4 pointer-events-auto">
           <Llegenda />
         </div>
-        <div className="absolute bottom-4 left-4 pointer-events-auto">
+
+        <div className="absolute right-25 top-25 pointer-events-auto flex flex-col items-end gap-4">
+          <TraficoMalicioso />
           <TotalAmenazas />
         </div>
       </div>
+
     </div>
   );
 }
