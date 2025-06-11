@@ -1,7 +1,6 @@
 const Host = process.env.NEXT_PUBLIC_CM_HOST;
 
 // ========= POST =======================
-
 export const getData = async (index) => {
     try {
         const response = await fetch(`/data.json`, {

@@ -38,13 +38,12 @@ export default function Ciberamenazas() {
     }, []);
 
     return (
-        <div className="bg-blue-200 bg-opacity-20 border-2 rounded-2xl border-[#4361ee] w-[450px] max-h-[45vh] p-3 flex flex-col justify-between">
-            <h2 className="text-base font-semibold text-[#003366] text-xl font-thin p-3 mb-2">
+        <div className="bg-blue-200 bg-opacity-20 border-2 rounded-2xl border-[#4361ee] w-full max-w-full p-3 flex flex-col">
+            <h2 className="text-sm font-semibold text-[#003366] mb-2 lg:text-base">
                 Cyberark-PSM
             </h2>
 
-            {/* Establecemos una altura fija para que el gráfico se muestre */}
-            <div className="h-[120px] w-full">
+            <div className="h-[100px] w-full mb-2 lg:h-[120px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData}>
                         <CartesianGrid stroke="#ffffff" strokeDasharray="0" horizontal vertical />
@@ -52,10 +51,10 @@ export default function Ciberamenazas() {
                             dataKey="dia"
                             angle={-45}
                             textAnchor="end"
-                            height={40}
-                            tick={{ fontSize: 10 }}
+                            height={30}
+                            tick={{ fontSize: 9 }}
                         />
-                        <YAxis tick={{ fontSize: 10 }} />
+                        <YAxis tick={{ fontSize: 9 }} />
                         <Tooltip />
                         <Bar dataKey="sesiones" fill="#4da6ff" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -63,28 +62,22 @@ export default function Ciberamenazas() {
             </div>
 
             {info && (
-                <div className="bg-blue-100 bg-opacity-30 mt-2 p-2 rounded-md text-xs text-[#003366] flex justify-center items-center gap-4 h-[100px]">
-                    <div className="flex items-center justify-center border-r-2 pr-3 h-full">
-                        <div className="origin-center font-thin text-xl tracking-tight">
+                <div className="bg-blue-100 bg-opacity-30 p-2 rounded-md text-xs text-[#003366] flex items-center gap-2">
+                    <div className="flex items-center justify-center border-r-2 pr-2 min-w-[60px]">
+                        <div className="font-thin text-sm tracking-tight">
                             Conexiones
                         </div>
                     </div>
 
-                    {/* Info a la derecha */}
-                    <div className="flex flex-col gap-1 leading-snug">
+                    <div className="flex flex-col gap-1 leading-tight text-xs">
                         <p>
-                            Realizadas (sesiones PSM):{" "}
-                            <span className="font-bold">{info.sesiones}</span>
+                            Realizadas: <span className="font-bold">{info.sesiones}</span>
                         </p>
                         <p>
-                            No Securizadas:{" "}
-                            <span className="font-bold">
-                                {String(info.noAutorizadas).padStart(3, "0")}
-                            </span>
+                            No Securizadas: <span className="font-bold">{String(info.noAutorizadas).padStart(3, "0")}</span>
                         </p>
                         <p>
-                            Legítimas / Temporales:{" "}
-                            <span className="font-bold">{info.temporalidades}</span>
+                            Legítimas/Temporales: <span className="font-bold">{info.temporalidades}</span>
                         </p>
                     </div>
                 </div>

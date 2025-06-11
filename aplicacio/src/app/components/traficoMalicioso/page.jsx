@@ -21,38 +21,36 @@ export default function TraficoMalicioso() {
     }, []);
 
     return (
-        <div className="bg-blue-200 bg-opacity-20 p-4 border-2 rounded-2xl border-[#BDD8ECB2] w-[450px] mb-10" style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}>
+        <div className="bg-blue-200 bg-opacity-20 p-3 border-2 rounded-2xl border-[#BDD8ECB2] w-full max-w-full relative" style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}>
             {/* Header de la tarjeta */}
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-3 items-center mb-3">
                 <button
-                    className="flex items-center text-xs bg-[#FF6F6F] text-white py-2 px-3 rounded-full gap-1"
+                    className="flex items-center text-xs bg-[#FF6F6F] text-white py-1 px-2 rounded-full gap-1 shrink-0"
                     style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}
                 >
-                    <TriangleAlert />
+                    <TriangleAlert size={12} />
                     Nueva Amenaza
                 </button>
 
-                <div>
-                    <p className="text-blue-500">Tráfico malicioso externo intensivo.</p>
-                    <p className="text-[#FF6F6F] font-semibold">{riesgo}/100</p>
+                <div className="flex-1 min-w-0">
+                    <p className="text-blue-500 text-xs lg:text-sm">Tráfico malicioso externo intensivo.</p>
+                    <p className="text-[#FF6F6F] font-semibold text-sm">{riesgo}/100</p>
                 </div>
 
                 {riesgo >= 50 && (
-                    <div className="h-5 w-5 bg-red-500 rounded-full absolute right-2 top-2" style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}></div>
+                    <div className="h-3 w-3 bg-red-500 rounded-full shrink-0" style={{ filter: "drop-shadow(0 0 5px #FF6F6F)" }}></div>
                 )}
             </div>
 
-            {/* Informació detallada */}
-            <div className="flex p-3 gap-4">
-                {/* Texto a la izquierda */}
-                <div className="w-1/2 py-4 px-3 bg-blue-300 rounded-xl flex flex-col justify-between">
-                    <p className="text-blue-800 text-xl font-semibold">{mensaje}</p>
-                    <p className="font-extrabold text-sm mt-2">{fuente}</p>
+            {/* Información detallada */}
+            <div className="flex gap-3">
+                <div className="flex-1 py-3 px-2 bg-blue-300 rounded-xl flex flex-col justify-between">
+                    <p className="text-blue-800 text-sm font-semibold lg:text-base">{mensaje}</p>
+                    <p className="font-extrabold text-xs mt-1 lg:text-sm">{fuente}</p>
                 </div>
 
-                {/* Imagen a la derecha, alineada abajo */}
-                <div className="w-1/2 flex items-end justify-center">
-                    <img src="/amenazas/image.png" alt="Velocímetro" className="max-h-32 object-contain" />
+                <div className="w-20 flex items-end justify-center lg:w-24">
+                    <img src="/amenazas/image.png" alt="Velocímetro" className="max-h-16 object-contain lg:max-h-20" />
                 </div>
             </div>
         </div>

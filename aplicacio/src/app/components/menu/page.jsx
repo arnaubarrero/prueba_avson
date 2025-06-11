@@ -14,7 +14,6 @@ export default function Menu({ onMenuChange }) {
         if (estadoGuardado !== null) {
             const estadoBoolean = estadoGuardado === "true";
             setMenuObert(estadoBoolean);
-            // Notificar al componente padre del estado inicial
             if (onMenuChange) {
                 onMenuChange(estadoBoolean);
             }
@@ -28,13 +27,12 @@ export default function Menu({ onMenuChange }) {
 
     useEffect(() => {
         localStorage.setItem("estadoMenu", menuObert.toString());
-        // Notificar al componente padre cada vez que cambie el estado
         if (onMenuChange) {
             onMenuChange(menuObert);
         }
     }, [menuObert, onMenuChange]);
 
-    useEffect(() => { // Hora
+    useEffect(() => {
         const actualizarHora = () => {
             const ahora = new Date();
             const horaFormateada = ahora.toLocaleTimeString('es-ES', {
@@ -56,33 +54,33 @@ export default function Menu({ onMenuChange }) {
     };
 
     return (
-        <div className="flex items-center h-[10vh]">
-            <div className="w-1/3">
-                <Image className="h-[70px] w-[70px] ml-[25%]" priority src={logo} alt="El nostre logo" />
+        <div className="flex items-center h-[10vh] min-h-[80px] px-2">
+            <div className="w-1/3 flex justify-center lg:justify-start lg:ml-[10%]">
+                <Image className="h-[50px] w-[50px] lg:h-[70px] lg:w-[70px]" priority src={logo} alt="El nostre logo" />
             </div>
 
             {/* Filtros */}
             <div className="w-1/3 flex flex-col items-center text-blue-800">
-                <h3 className="font-Outfit text-2xl font-bold mb-1">Filtrar infraestructuras</h3>
-                <div className="flex flex-col gap-8 md:flex-row">
+                <h3 className="font-Outfit text-lg font-bold mb-1 lg:text-2xl">Filtrar infraestructuras</h3>
+                <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 lg:gap-8">
                     {["Infra 1", "Infra 2", "Infra 3"].map((infra, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                            <input type="radio" name="infra" id={`infra${index + 1}`} className="h-4 w-4" />
-                            <label htmlFor={`infra${index + 1}`} className="text-xl cursor-pointer">{infra}</label>
+                        <div key={index} className="flex items-center gap-2">
+                            <input type="radio" name="infra" id={`infra${index + 1}`} className="h-3 w-3 lg:h-4 lg:w-4" />
+                            <label htmlFor={`infra${index + 1}`} className="text-sm cursor-pointer lg:text-xl">{infra}</label>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Hora e icono del menú */}
-            <div className="w-1/3 flex justify-center items-center pr-3 gap-6">
-                <span className="text-2xl">{hora}</span>
+            <div className="w-1/3 flex justify-center items-center gap-3 lg:gap-6">
+                <span className="text-lg lg:text-2xl">{hora}</span>
 
-                <div onClick={toggleMenu} className={`cursor-pointer p-2 rounded-full bg-[#E8F9FF] `} >
+                <div onClick={toggleMenu} className="cursor-pointer p-2 rounded-full bg-[#E8F9FF]">
                     {menuObert ? (
-                        <CrossIcon className="text-red-500" />
+                        <CrossIcon className="text-red-500" size={20} />
                     ) : (
-                        <IconaMenu className="text-[#003B99]" />
+                        <IconaMenu className="text-[#003B99]" size={20} />
                     )}
                 </div>
             </div>

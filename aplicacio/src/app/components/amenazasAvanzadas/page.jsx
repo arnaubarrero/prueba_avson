@@ -52,26 +52,26 @@ export default function AmenazasAvanzadas() {
   }
 
   return (
-    <div className="max-w-[450px] max-h-[45vh] bg-blue-200 bg-opacity-20 py-4 px-8 border-2 rounded-2xl border-[#4361ee] mx-auto flex flex-col">
-      <h2 className="text-base font-semibold text-[#003366] text-xl font-thin mb-2">
+    <div className="w-full max-w-full bg-blue-200 bg-opacity-20 py-3 px-4 border-2 rounded-2xl border-[#4361ee] flex flex-col">
+      <h2 className="text-sm font-semibold text-[#003366] mb-2 lg:text-base">
         Amenazas Avanzadas
       </h2>
 
-      <div className="flex justify-center gap-3 mb-4 text-sm font-medium shrink-0">
-        <span className="px-3 py-1 rounded-full text-blue-500">SQL Injection</span>
-        <span className="px-3 py-1 rounded-full bg-[#008f39] text-white">XSS Malware</span>
+      <div className="flex justify-center gap-2 mb-3 text-xs font-medium shrink-0 lg:text-sm lg:gap-3">
+        <span className="px-2 py-1 rounded-full text-blue-500">SQL Injection</span>
+        <span className="px-2 py-1 rounded-full bg-[#008f39] text-white">XSS Malware</span>
       </div>
 
-      <div className="w-full" style={{ height: "25vh" }}>
+      <div className="w-full h-[180px] lg:h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
-          <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="80%">
+          <RadarChart data={chartData} cx="50%" cy="50%" outerRadius="70%">
             <PolarGrid stroke="#ffffff" />
-            <PolarAngleAxis dataKey="hora" tick={{ fill: "#ffffff", fontSize: 12 }} />
+            <PolarAngleAxis dataKey="hora" tick={{ fill: "#ffffff", fontSize: 10 }} />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#fff",
                 borderColor: "#ccc",
-                fontSize: "0.85rem",
+                fontSize: "0.75rem",
               }}
               formatter={(value) => [`${value}`, "Amenazas"]}
             />

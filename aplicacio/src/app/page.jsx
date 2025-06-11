@@ -17,7 +17,7 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 export default function Home() {
   const [hora, setHora] = useState('');
   const posicio = [37.985199, -1.125110];
-  const [estatMenu, setEstatMenu] = useState(false); // Cambiado a boolean y valor inicial false
+  const [estatMenu, setEstatMenu] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [categorias, setCategorias] = useState([]);
   const [mapKey, setMapKey] = useState(Date.now());
@@ -36,7 +36,6 @@ export default function Home() {
     }
   };
 
-  // Función callback para recibir cambios del componente Menu
   const handleMenuChange = useCallback((isOpen) => {
     setEstatMenu(isOpen);
     console.log('Estado del menú:', isOpen);
@@ -54,7 +53,7 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => { // hora
+  useEffect(() => {
     const actualizarHora = () => {
       const ahora = new Date();
       setHora(ahora.toLocaleTimeString());
@@ -64,7 +63,7 @@ export default function Home() {
     return () => clearInterval(intervalo);
   }, []);
 
-  useEffect(() => { // fetch
+  useEffect(() => {
     const fetchData = async () => {
       const response = await getData();
       setCategorias(response);
@@ -100,14 +99,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-screen overflow-hidden">
       {/* Mapa */}
       <div className="fixed top-0 left-0 w-full h-full z-0">
         {isClient && (
           <MapContainer
             key={mapKey}
             center={posicio}
-            zoom={11}
+            zoom={10}
             zoomControl={false}
             style={{ width: '100%', height: '100%' }}
             scrollWheelZoom={false}
@@ -139,17 +138,23 @@ export default function Home() {
           <Menu onMenuChange={handleMenuChange} />
         </div>
 
-        {/* Condicional simplificado - ahora funciona reactivamente */}
+        {/* Componentes con scroll y mejor organización */}
         {estatMenu && (
-          <div id='items'>
-            <div className="absolute left-4 bottom-4 pointer-events-auto flex flex-col gap-6 m-6">
-              <AmenazasAvanzadas />
-              <Cyberark />
+          <div id='items' className="absolute inset-0 pt-[12vh] pb-4 overflow-hidden">
+            {/* Contenedor izquierdo con scroll */}
+            <div className="absolute left-2 top-[12vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+              <div className="flex flex-col gap-3 p-2">
+                <AmenazasAvanzadas />
+                <Cyberark />
+              </div>
             </div>
 
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-auto flex flex-col gap-4">
-              <TraficoMalicioso />
-              <TotalAmenazas />
+            {/* Contenedor derecho con scroll */}
+            <div className="absolute right-2 top-[12vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+              <div className="flex flex-col gap-3 p-2">
+                <TraficoMalicioso />
+                <TotalAmenazas />
+              </div>
             </div>
           </div>
         )}
