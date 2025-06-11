@@ -1,5 +1,5 @@
 "use client";
-
+import L from 'leaflet';
 import dynamic from 'next/dynamic';
 import Menu from "./components/menu/page";
 import { useState, useEffect } from 'react';
@@ -31,14 +31,8 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getData();
-        setCategorias(response);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      const response = await getData();
+      setCategorias(response);
     };
 
     fetchData();
@@ -56,32 +50,75 @@ export default function Home() {
     return () => clearInterval(intervalo);
   }, []);
 
+  const getColorClass = (estado) => {
+    switch (estado) {
+      case 'alerta':
+        return {
+          clases: 'border-yellow-300 bg-yellow-100 text-yellow-700',
+          imgSrc: '/vectoresMapa/groc.png',
+        };
+      case 'riesgo':
+        return {
+          clases: 'border-red-300 bg-red-100 text-red-700',
+          imgSrc: '/vectoresMapa/tronja.png',
+        };
+      case 'normal':
+        return {
+          clases: 'border-green-300 bg-green-50 text-green-700',
+          imgSrc: '/vectoresMapa/verd.png',
+        };
+      default:
+    }
+  };
+
+  let createCustomIcon;
+  if (typeof window !== 'undefined') {
+    createCustomIcon = (infra) => {
+      const { clases, imgSrc } = getColorClass(infra.estado);
+      return L.divIcon({
+        className: '',
+        html: `
+        <div class="p-1 z-30 rounded-xl border shadow-md text-sm font-medium bg-opacity-20 ${clases}">
+          <div class="items-center flex gap-2 text-center">
+            <img src="${imgSrc}" class="h-[20px] mx-auto mb-1" alt="icono estado" />
+            <div>
+              <img src="/logo.svg" alt="Logo" class="h-[15px]" />
+              ${infra.nombre}
+            </div>
+          </div>
+        </div>
+        <div class="h-[30px] w-[3px] m-auto bg-black "></div>
+        <div class="h-3 w-3 bg-black rounded-full m-auto"></div>
+      `,
+        iconSize: [150, 40],
+        iconAnchor: [75, 73] // El punt es el centre de la coordenada
+      });
+    };
+  }
+
+
   return (
     <div className="relative w-full h-screen">
       {/* Mapa */}
       <div className="fixed top-0 left-0 w-full h-full z-0">
-        <MapContainer center={posicio} zoom={10} zoomControl={false} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
+        <MapContainer center={posicio} zoom={11} zoomControl={false} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false} >
           <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>' />
 
-          {/* Ensenyar les coordenades al mapa */}
+          {/* Ensenyar les coordenades */}
           {categorias?.infraestructuras?.map((infra) => (
-            <Marker key={infra.id} position={[infra.lat, infra.lng]} >
-              <Popup>
-                <strong>{infra.nombre}</strong><br />
-                Estado: {infra.estado}
-              </Popup>
-            </Marker>
+            createCustomIcon ? (
+              <Marker className="z-30" key={infra.id} position={[infra.lat, infra.lng]} icon={createCustomIcon(infra)} />
+            ) : null
           ))}
-
         </MapContainer>
       </div>
 
-      {/* Filtro azul */}
+      {/* Filtro blau */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Componentes flotantes */}
+      {/* Components flotants */}
       <div className="fixed inset-0 z-20 pointer-events-none">
         <div className="w-full pointer-events-auto">
           <Menu />

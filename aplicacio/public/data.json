@@ -3,8 +3,8 @@
         {
             "id": 1,
             "nombre": "Infraestructura 1",
-            "lat": 37.997962,
-            "lng": -1.138933,
+            "lat": 37.995567,
+            "lng": -1.176453,
             "estado": "alerta"
         },
         {
@@ -17,8 +17,8 @@
         {
             "id": 3,
             "nombre": "Infraestructura 3",
-            "lat": 37.969782,
-            "lng": -1.128184,
+            "lat": 38.017603,
+            "lng": -1.084323,
             "estado": "riesgo"
         }
     ],
