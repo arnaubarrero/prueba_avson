@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Menu from "./components/menu/page";
 import Llegenda from "./components/llegenda/page";
 import Cyberark from './components/cyberark/page';
@@ -15,12 +15,13 @@ const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLaye
 const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
 
 export default function Home() {
-  const posicio = [37.985199, -1.125110];
   const [hora, setHora] = useState('');
-  const [categorias, setCategorias] = useState([]);
+  const posicio = [37.985199, -1.125110];
+  const [estatMenu, setEstatMenu] = useState(false); // Cambiado a boolean y valor inicial false
   const [isClient, setIsClient] = useState(false);
-  const [createCustomIcon, setCreateCustomIcon] = useState(null);
+  const [categorias, setCategorias] = useState([]);
   const [mapKey, setMapKey] = useState(Date.now());
+  const [createCustomIcon, setCreateCustomIcon] = useState(null);
 
   const getColorClass = (estado) => {
     switch (estado) {
@@ -35,9 +36,14 @@ export default function Home() {
     }
   };
 
+  // Función callback para recibir cambios del componente Menu
+  const handleMenuChange = useCallback((isOpen) => {
+    setEstatMenu(isOpen);
+    console.log('Estado del menú:', isOpen);
+  }, []);
+
   useEffect(() => {
     setIsClient(true);
-
     return () => {
       const leafletContainers = document.getElementsByClassName('leaflet-container');
       if (leafletContainers.length > 0) {
@@ -48,7 +54,7 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // hora
     const actualizarHora = () => {
       const ahora = new Date();
       setHora(ahora.toLocaleTimeString());
@@ -58,7 +64,7 @@ export default function Home() {
     return () => clearInterval(intervalo);
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // fetch
     const fetchData = async () => {
       const response = await getData();
       setCategorias(response);
@@ -128,26 +134,26 @@ export default function Home() {
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Layout de componentes */}
       <div className="fixed inset-0 z-20 pointer-events-none">
-        {/* Menu en la parte superior (ya tiene position fixed) */}
         <div className="w-full pointer-events-auto">
-          <Menu />
+          <Menu onMenuChange={handleMenuChange} />
         </div>
 
-        {/* Componentes del lado izquierdo */}
-        <div className="absolute left-4 bottom-4 pointer-events-auto flex flex-col gap-6 m-6">
-          <AmenazasAvanzadas />
-          <Cyberark />
-        </div>
+        {/* Condicional simplificado - ahora funciona reactivamente */}
+        {estatMenu && (
+          <div id='items'>
+            <div className="absolute left-4 bottom-4 pointer-events-auto flex flex-col gap-6 m-6">
+              <AmenazasAvanzadas />
+              <Cyberark />
+            </div>
 
-        {/* Componentes del lado derecho */}
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-auto flex flex-col gap-4">
-          <TraficoMalicioso />
-          <TotalAmenazas />
-        </div>
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-auto flex flex-col gap-4">
+              <TraficoMalicioso />
+              <TotalAmenazas />
+            </div>
+          </div>
+        )}
 
-        {/* Leyenda en la esquina inferior derecha (ya tiene position fixed) */}
         <div className="absolute bottom-4 right-4 pointer-events-auto">
           <Llegenda />
         </div>
