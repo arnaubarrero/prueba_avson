@@ -1,79 +1,66 @@
 "use client";
 
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import Menu from "./components/menu/page";
-import { useState, useEffect } from 'react';
 import Llegenda from "./components/llegenda/page";
-import { getData } from "./plugins/communicationManager";
 import TotalAmenazas from './components/ciberamenazas/page';
+import { getData } from "./plugins/communicationManager";
 
-const MapContainer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import('react-leaflet').then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(
-  () => import('react-leaflet').then((mod) => mod.Popup),
-  { ssr: false }
-);
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
 
 export default function Home() {
   const posicio = [37.985199, -1.125110];
   const [hora, setHora] = useState('');
   const [categorias, setCategorias] = useState([]);
+  const [isClient, setIsClient] = useState(false);
   const [createCustomIcon, setCreateCustomIcon] = useState(null);
+  const [mapKey, setMapKey] = useState(Date.now());
 
   const getColorClass = (estado) => {
     switch (estado) {
       case 'alerta':
-        return {
-          clases: 'border-yellow-300 bg-yellow-100 text-yellow-700',
-          imgSrc: '/vectoresMapa/groc.png',
-        };
+        return { clases: 'border-yellow-300 bg-yellow-100 text-yellow-700', imgSrc: '/vectoresMapa/groc.png' };
       case 'riesgo':
-        return {
-          clases: 'border-red-300 bg-red-100 text-red-700',
-          imgSrc: '/vectoresMapa/tronja.png',
-        };
+        return { clases: 'border-red-300 bg-red-100 text-red-700', imgSrc: '/vectoresMapa/tronja.png' };
       case 'normal':
-        return {
-          clases: 'border-green-300 bg-green-50 text-green-700',
-          imgSrc: '/vectoresMapa/verd.png',
-        };
+        return { clases: 'border-green-300 bg-green-50 text-green-700', imgSrc: '/vectoresMapa/verd.png' };
       default:
         return {};
     }
   };
 
-  // Cargar datos
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getData();
-      setCategorias(response);
+    setIsClient(true);
+    return () => {
+      const leafletContainers = document.getElementsByClassName('leaflet-container');
+      if (leafletContainers.length > 0) {
+        for (const el of leafletContainers) {
+          el.remove();
+        }
+      }
     };
-    fetchData();
   }, []);
 
-  // Actualizar hora cada segundo
   useEffect(() => {
     const actualizarHora = () => {
       const ahora = new Date();
-      const horaFormateada = ahora.toLocaleTimeString();
-      setHora(horaFormateada);
+      setHora(ahora.toLocaleTimeString());
     };
     actualizarHora();
     const intervalo = setInterval(actualizarHora, 1000);
     return () => clearInterval(intervalo);
   }, []);
 
-  // Cargar Leaflet solo en cliente y definir createCustomIcon
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getData();
+    };
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const L = require('leaflet');
@@ -104,38 +91,39 @@ export default function Home() {
   return (
     <div className="relative w-full h-screen">
       {/* Mapa */}
-      <div className="fixed top-0 left-0 w-full h-full z-0">
-        <MapContainer
-          center={posicio}
-          zoom={11}
-          zoomControl={false}
-          style={{ width: '100%', height: '100%' }}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
-          />
-
-          {categorias?.infraestructuras?.map((infra) =>
-            createCustomIcon ? (
-              <Marker
-                className="z-30"
-                key={infra.id}
-                position={[infra.lat, infra.lng]}
-                icon={createCustomIcon(infra)}
-              />
-            ) : null
-          )}
-        </MapContainer>
-      </div>
+      {/* <div className="fixed top-0 left-0 w-full h-full z-0">
+        {isClient && (
+          <MapContainer
+            key={mapKey} // 🔁 evita reuso de contenedor
+            center={posicio}
+            zoom={11}
+            zoomControl={false}
+            style={{ width: '100%', height: '100%' }}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+            />
+            {categorias?.infraestructuras?.map((infra) =>
+              createCustomIcon ? (
+                <Marker
+                  key={infra.id}
+                  position={[infra.lat, infra.lng]}
+                  icon={createCustomIcon(infra)}
+                />
+              ) : null
+            )}
+          </MapContainer>
+        )}
+      </div> */}
 
       {/* Filtro azul */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         <div className="w-full h-full bg-blue-500 opacity-20"></div>
       </div>
 
-      {/* Components flotantes */}
+      {/* Componentes flotantes */}
       <div className="fixed inset-0 z-20 pointer-events-none">
         <div className="w-full pointer-events-auto">
           <Menu />
