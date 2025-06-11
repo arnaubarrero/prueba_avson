@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Menu from "./components/menu/page";
 import Llegenda from "./components/llegenda/page";
 import Cyberark from './components/cyberark/page';
@@ -22,6 +23,15 @@ export default function Home() {
   const [categorias, setCategorias] = useState([]);
   const [mapKey, setMapKey] = useState(Date.now());
   const [createCustomIcon, setCreateCustomIcon] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainerRef = useRef(null);
+
+  const components = [
+    { component: AmenazasAvanzadas, key: 'amenazas' },
+    { component: Cyberark, key: 'cyberark' },
+    { component: TraficoMalicioso, key: 'trafico' },
+    { component: TotalAmenazas, key: 'total' }
+  ];
 
   const getColorClass = (estado) => {
     switch (estado) {
@@ -40,6 +50,44 @@ export default function Home() {
     setEstatMenu(isOpen);
     console.log('Estado del menú:', isOpen);
   }, []);
+
+  const nextSlide = () => {
+    const newIndex = (currentIndex + 1) % components.length;
+    setCurrentIndex(newIndex);
+
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.offsetWidth;
+      scrollContainerRef.current.scrollTo({
+        left: scrollAmount * newIndex,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const prevSlide = () => {
+    const newIndex = currentIndex === 0 ? components.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.offsetWidth;
+      scrollContainerRef.current.scrollTo({
+        left: scrollAmount * newIndex,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.offsetWidth;
+      scrollContainerRef.current.scrollTo({
+        left: scrollAmount * index,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   useEffect(() => {
     setIsClient(true);
@@ -141,24 +189,51 @@ export default function Home() {
         {/* Componentes con scroll y mejor organización */}
         {estatMenu && (
           <div id='items' className="absolute inset-0 pt-[12vh] pb-4">
-            {/* Contenedor izquierdo con scroll */}
-            <div className="absolute left-2 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
-              <div className="flex flex-col gap-3 p-2">
-                <AmenazasAvanzadas />
-                <Cyberark />
+
+            {/* Layout móvil - Carrusel horizontal con botones */}
+            <div className="md:hidden w-full h-full flex flex-col items-center justify-center relative">
+              <div className="relative w-full flex-1 flex items-center">
+
+                <button onClick={prevSlide} className="absolute left-2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 pointer-events-auto" >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </button>
+
+                <div ref={scrollContainerRef} className="w-full overflow-x-hidden overflow-y-hidden scroll-smooth" >
+                  <div className="flex transition-transform duration-300 ease-in-out">
+                    {components.map(({ component: Component, key }, index) => (
+                      <div key={key} className="w-full flex-shrink-0 flex items-center justify-center p-4">
+                        <Component />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button onClick={nextSlide} className="absolute right-2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 pointer-events-auto" >
+                  <ChevronRight className="w-6 h-6 text-gray-700" />
+                </button>
               </div>
             </div>
 
-            {/* Contenedor derecho con scroll */}
-            <div className="absolute right-2 gap-10 top-[20vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
-              <div className="flex flex-col gap-3 p-2">
-                <TraficoMalicioso />
-                <TotalAmenazas />
+            {/* Layout desktop - Columnas como antes */}
+            <div className="hidden md:block">
+              {/* Contenedor izquierdo con scroll */}
+              <div className="no-scrollbar absolute left-2 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
+                <div className="flex flex-col gap-3 p-2">
+                  <AmenazasAvanzadas />
+                  <Cyberark />
+                </div>
+              </div>
+
+              {/* Contenedor derecho con scroll */}
+              <div className="no-scrollbar absolute right-2 gap-10 top-[20vh] bottom-4 w-[min(450px,45vw)] pointer-events-auto overflow-y-auto">
+                <div className="flex flex-col gap-3 p-2">
+                  <TraficoMalicioso />
+                  <TotalAmenazas />
+                </div>
               </div>
             </div>
           </div>
         )}
-
         <div className="absolute bottom-4 right-4 pointer-events-auto">
           <Llegenda />
         </div>

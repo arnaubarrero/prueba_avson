@@ -38,7 +38,7 @@ export default function Ciberamenazas() {
     }, []);
 
     return (
-        <div className="bg-blue-200/80 border-2 rounded-2xl border-[#4361ee] w-full max-w-full p-3 flex flex-col">
+        <div className="w-full xl:max-w-full max-w-[300px] bg-blue-200/80 py-3 px-4 border-2 rounded-2xl border-[#4361ee] flex flex-col">
             <h2 className="text-sm font-semibold text-[#003366] mb-2 lg:text-base">
                 Cyberark-PSM
             </h2>
