@@ -178,7 +178,7 @@ export default function Home() {
 
       {/* Filtro azul */}
       <div className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
-        <div className="w-full h-full bg-blue-500 opacity-20"></div>
+        <div className="w-full h-full bg-blue-400 opacity-20"></div>
       </div>
 
       <div className="fixed inset-0 z-20 pointer-events-none">
@@ -186,7 +186,7 @@ export default function Home() {
           <Menu onMenuChange={handleMenuChange} />
         </div>
 
-        {/* Componentes con scroll y mejor organización */}
+        {/* CScroll y organización */}
         {estatMenu && (
           <div id='items' className="absolute inset-0 pt-[12vh] pb-4">
 
