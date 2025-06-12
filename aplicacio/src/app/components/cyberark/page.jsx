@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getData } from "../../plugins/communicationManager";
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-    CartesianGrid,
-} from "recharts";
+import { BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,CartesianGrid,} from "recharts";
 
 export default function Ciberamenazas() {
     const [chartData, setChartData] = useState([]);
@@ -47,15 +39,13 @@ export default function Ciberamenazas() {
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData}>
                         <CartesianGrid stroke="#ffffff" strokeDasharray="0" horizontal vertical />
-                        <XAxis
-                            dataKey="dia"
-                            angle={-45}
-                            textAnchor="end"
-                            height={30}
-                            tick={{ fontSize: 9 }}
-                        />
+
+                        <XAxis dataKey="dia" angle={-45} textAnchor="end" height={30} tick={{ fontSize: 9 }} />
+
                         <YAxis tick={{ fontSize: 9 }} />
+
                         <Tooltip />
+
                         <Bar dataKey="sesiones" fill="#4da6ff" radius={[4, 4, 0, 0]} />
                     </BarChart>
                 </ResponsiveContainer>

@@ -7,8 +7,8 @@ import { getData } from "../../plugins/communicationManager";
 export default function TraficoMalicioso() {
     const [chartData, setChartData] = useState(null);
     const riesgo = chartData?.traficoBloqueado?.riesgo ?? 0;
-    const mensaje = chartData?.traficoBloqueado?.mensaje ?? "";
     const fuente = chartData?.traficoBloqueado?.fuente ?? "";
+    const mensaje = chartData?.traficoBloqueado?.mensaje ?? "";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,7 +42,7 @@ export default function TraficoMalicioso() {
                 )}
             </div>
 
-            {/* Información detallada */}
+            {/* Informació detallada */}
             <div className="flex gap-3">
                 <div className="flex-1 py-3 px-2 bg-blue-300 rounded-xl flex flex-col justify-between">
                     <p className="text-blue-800 text-sm font-semibold lg:text-base">{mensaje}</p>

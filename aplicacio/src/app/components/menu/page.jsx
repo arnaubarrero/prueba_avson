@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import { useState, useEffect } from 'react';
-import { X as CrossIcon, Menu as IconaMenu } from 'lucide-react';
 import logo from "../../../../public/logo.svg";
+import { X as CrossIcon, Menu as IconaMenu } from 'lucide-react';
 
 export default function Menu({ onMenuChange }) {
     const [hora, setHora] = useState('');
     const [menuObert, setMenuObert] = useState(true);
 
     useEffect(() => {
-        const estadoGuardado = localStorage.getItem("estadoMenu");
+        const estadoGuardado = localStorage.getItem("estatMenu");
         if (estadoGuardado !== null) {
             const estadoBoolean = estadoGuardado === "true";
             setMenuObert(estadoBoolean);
@@ -18,7 +18,7 @@ export default function Menu({ onMenuChange }) {
                 onMenuChange(estadoBoolean);
             }
         } else {
-            localStorage.setItem("estadoMenu", "true");
+            localStorage.setItem("estatMenu", "true");
             if (onMenuChange) {
                 onMenuChange(true);
             }
@@ -26,7 +26,7 @@ export default function Menu({ onMenuChange }) {
     }, [onMenuChange]);
 
     useEffect(() => {
-        localStorage.setItem("estadoMenu", menuObert.toString());
+        localStorage.setItem("estatMenu", menuObert.toString());
         if (onMenuChange) {
             onMenuChange(menuObert);
         }
@@ -59,20 +59,30 @@ export default function Menu({ onMenuChange }) {
                 <Image className="h-[50px] w-[50px] lg:h-[70px] lg:w-[70px]" priority src={logo} alt="El nostre logo" />
             </div>
 
-            {/* Filtros */}
             <div className="w-1/3 flex flex-col items-center text-blue-800">
-                <h3 className="font-Outfit text-lg font-thin mb-1 lg:text-2xl">Filtrar infraestructuras</h3>
+                <h3 className="font-Outfit text-lg font-thin mb-1 lg:text-2xl">
+                    Filtrar infraestructuras
+                </h3>
+
                 <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 lg:gap-8">
-                    {["Infra 1", "Infra 2", "Infra 3"].map((infra, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                            <input type="radio" name="infra" id={`infra${index + 1}`} className="h-3 w-3 lg:h-4 lg:w-4" />
-                            <label htmlFor={`infra${index + 1}`} className="text-sm cursor-pointer lg:text-xl">{infra}</label>
-                        </div>
-                    ))}
+                    <div className="flex items-center gap-2">
+                        <input type="radio" name="infra" id="infra1" className="h-3 w-3 lg:h-4 lg:w-4" />
+                        <label htmlFor="infra1" className="text-sm cursor-pointer lg:text-xl">Infra 1</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <input type="radio" name="infra" id="infra2" className="h-3 w-3 lg:h-4 lg:w-4" />
+                        <label htmlFor="infra2" className="text-sm cursor-pointer lg:text-xl">Infra 2</label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <input type="radio" name="infra" id="infra3" className="h-3 w-3 lg:h-4 lg:w-4" />
+                        <label htmlFor="infra3" className="text-sm cursor-pointer lg:text-xl">Infra 3</label>
+                    </div>
                 </div>
             </div>
 
-            {/* Hora e icono del menú */}
+            {/* Hora i menu */}
             <div className="w-1/3 flex justify-center items-center gap-3 lg:gap-6">
                 <span className="text-lg lg:text-2xl">{hora}</span>
 

@@ -12,7 +12,7 @@
             "nombre": "Infraestructura 2",
             "lat": 37.767741,
             "lng": -1.069308,
-            "estado": "normal"
+            "estado": "alerta"
         },
         {
             "id": 3,
@@ -20,6 +20,13 @@
             "lat": 38.017603,
             "lng": -1.084323,
             "estado": "riesgo"
+        },
+        {
+            "id": 4,
+            "nombre": "Infraestructura 4",
+            "lat": 37.885119,
+            "lng": -1.137779,
+            "estado": "normal"
         }
     ],
     "amenazasAvanzadas": {

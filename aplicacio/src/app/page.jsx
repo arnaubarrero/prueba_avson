@@ -216,7 +216,7 @@ export default function Home() {
 
             {/* Vista pc */}
             <div className="hidden md:block">
-              <div className="no-scrollbar absolute left-8 bottom-10 top-[20vh] w-[min(450px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
+              <div className="no-scrollbar absolute left-8 bottom-10 top-[20vh] w-[min(400px,45vw)] pointer-events-auto overflow-y-auto max-h-full">
                 <div className="flex flex-col gap-3 p-2">
                   <AmenazasAvanzadas />
                   <Cyberark />
